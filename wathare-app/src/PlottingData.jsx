@@ -1,9 +1,16 @@
+// PlottingData.js
+// PlottingData.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import StatusStrip from './StatusStrip';
 
-const PlottingData = () => {
+const PlottingData = ({ startTime, endTime }) => {
     const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const fetchData = async () => {
         try {
@@ -14,37 +21,36 @@ const PlottingData = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
     return (
         <>
-            {/* <button className='btn btn-success mt-4'>Check Location and Temperature</button>
-            &nbsp;
-            <button className='btn btn-success mt-4' onClick={fetchData}>Show Data</button> */}
+            <div className='data-plotting bg-light mb-5'>
+               <StatusStrip data={data} startTime={startTime} endTime={endTime} />
+            </div>
 
             <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">TimeStamp</th>
-            <th scope="col">Machine status</th>
-            <th scope="col">Vibration</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={item._id}>
-              <th scope="row">{index + 1}</th>
-              <td>{item.ts}</td>
-              <td>{item.machine_status}</td>
-              <td>{item.vibration}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">TimeStamp</th>
+                        <th scope="col">Machine status</th>
+                        <th scope="col">Vibration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((item, index) => (
+                        <tr key={item._id}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{item.ts}</td>
+                            <td>{item.machine_status}</td>
+                            <td>{item.vibration}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </>
     );
 };
 
 export default PlottingData;
+
+

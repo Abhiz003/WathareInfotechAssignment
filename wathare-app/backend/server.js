@@ -38,18 +38,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors =  require('cors');
@@ -105,8 +93,9 @@ app.get('/wathare/rangedData/:startTime/:endTime', async (req, res) => {
     const endTime = new Date(req.params.endTime);
 
     // Query database for records within the specified range
-    const data = await Wathare.find({ ts: { $gte: startTime, $lte: endTime } });
-
+    const data = await Wathare.find({ ts: {$gte: new Date(startTime), $lte: new Date(endTime) } });
+    
+    console.log(data)
     return res.json(data);
   } catch (error) {
     res.status(500).send('Error fetching data from database');
